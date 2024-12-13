@@ -13,9 +13,7 @@ use App\Models\DatabaseModel;
 
 class DonationModel
 {
-    /**
-     * Add a new donation
-     */
+    /** Add a new donation */
     public function addDonation($donorId, $description, $quantity, $address, $pickupTime)
     {
         $errors = $this->validateAddDonation(
