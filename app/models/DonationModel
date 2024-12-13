@@ -33,10 +33,10 @@ class DonationModel
 
         // Insert the donation into the database
         $sql = <<<SQL
-            INSERT INTO
-                donations (donor_id, food_description, quantity, donor_address_id, pickup_time, status, created_at)
-            VALUES
-                (:donor_id, :food_description, :quantity, :address, :pickup_time, :status, NOW())
+        INSERT INTO
+            food_donations (donor_id, food_description, quantity, address_id, pickup_time, status)
+        VALUES
+            (:donor_id, :food_description, :quantity, :address_id, :pickup_time, :status)
         SQL;
 
         $params = [
