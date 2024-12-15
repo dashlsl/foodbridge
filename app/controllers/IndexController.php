@@ -12,6 +12,8 @@ use App\Views\ViewManager;
 class IndexController
 {
     public function index(){
-        return ViewManager::renderView('indexview');
+        // Add news and updates here for carousel view
+
+        return ViewManager::renderView('index_view');
     }
 }
