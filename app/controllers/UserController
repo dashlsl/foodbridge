@@ -13,6 +13,7 @@ use App\Models\VolunteerModel;
 use App\Views\ViewManager;
 use App\Helpers\AjaxHelper;
 use App\Models\ValidateModel;
+use DateTime;
 
 class UserController
 {
@@ -80,8 +81,7 @@ class UserController
 
         return ViewManager::renderView(
             'editprofileview', 
-            $params, 
-            ['publicnav', 'sidepublicnav']);
+            $params);
     }
 
     public function updateProfile()
@@ -113,13 +113,48 @@ class UserController
 
     ////
 
+    /** Donation Form - Donors */
+    public function donateFormView()
+    {
+        $dm = new DonationModel();
+
+        // Current date and time
+        $curDateTime = new DateTime();
+        $params['curDate'] = $curDateTime->format('Y-m-d');
+        $params['curTime'] = $curDateTime->format('H:i');
+
+        return ViewManager::renderView('donate_form_view', $params);
+    }
+
+    public function donate()
+    {
+        $donorId = UserModel::getCurUserId();
+
+        $dnfoodDesc = $_POST['food-desc'];
+        $dnQuantity = $_POST['quantity'];
+        $dnPickupAddress = $_POST['pickup-address'];
+        $dnDate = $_POST['pickup-date'];
+        $dnTime = $_POST['pickup-time'];
+
+        $dateTime = new DateTime($dnDate . ' ' . $dnTime);
+        $dnDateTime = $dateTime->format('Y-m-d H:i:s');
+
+        $dm = new DonationModel();
+        $result = $dm->addDonation(
+            $donorId,
+            $dnfoodDesc,
+            $dnQuantity,
+            $dnPickupAddress,
+            $dnDateTime
+        );
+        $flag = !is_array($result);
+
+        AjaxHelper::sendResponse($flag, $result);
+    }
+
+    /** Donors view their donation history */
     public function donationsView()
     {
-        if (!ValidateModel::validateLogin()) {
-            header('Location: /login');
-            die();
-        }
-
         $userId = UserModel::getCurUserId();
 
         $dm = new DonationModel();
@@ -127,23 +162,6 @@ class UserController
 
         $params['donations'] = $donations;
 
-        return ViewManager::renderView('donationsview', $params);
-    }
-
-    public function volunteerView()
-    {
-        if (!ValidateModel::validateLogin()) {
-            header('Location: /login');
-            die();
-        }
-
-        $userId = UserModel::getCurUserId();
-
-        $vm = new VolunteerModel();
-        $volunteers = $vm->getVolunteersByUserId($userId);
-
-        $params['volunteers'] = $volunteers;
-
-        return ViewManager::renderView('volunteerview', $params);
+        return ViewManager::renderView('donations_view', $params);
     }
 }
