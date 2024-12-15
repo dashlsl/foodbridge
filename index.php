@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * FoodBridge - A platform connecting food donors, volunteers, and nonprofits
@@ -15,6 +15,5 @@
 
  date_default_timezone_set('Asia/Kuala_Lumpur');
 
- require_once ROOT . '/app/config/debug.php';
  require_once ROOT . '/app/views/views.php';
  require_once ROOT . '/app/routes/routes.php';

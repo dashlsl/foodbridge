@@ -111,6 +111,8 @@ class DatabaseModel
         return $stmt;
     }
 
+    // SAMPLES
+
     /** Input samples for testing */
     private static $sampleUsers = [
         'johndoe@email.com',
@@ -173,7 +175,6 @@ class DatabaseModel
         }
         return true;
     }
-
 
     /** Install samples */
     private static function installSamples()
