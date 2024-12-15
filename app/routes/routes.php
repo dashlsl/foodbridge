@@ -46,17 +46,18 @@ $rm->get(
     'AdminController@adminOrderView');
 
 /** GET ROUTES (AJAX) */
-// User
+// Admin
 $rm->get(
     '/get-user-list',
-    'UserController@getUserList');
+    'AdminController@getUserList');
 
 $rm->get(
-    '/get-user-details',
-    'UserController@getUserDetails');
+    '/get-donations',
+    'AdminController@getDonations');
 
 
 /** POST ROUTES */
+// User
 $rm->post(
     '/register',
     'UserController@register');
@@ -73,6 +74,22 @@ $rm->post(
     '/update-password',
     'UserController@updatePassword');
 
+// Admin
+$rm->post(
+    '/edit-user',
+    'AdminController@editUser');
+
+$rm->post(
+    '/delete-user',
+    'AdminController@deleteUser');
+
+$rm->post(
+    '/update-donation',
+    'AdminController@updateDonation');
+
+$rm->post(
+    '/delete-donation',
+    'AdminController@deleteDonation');
 
 
 

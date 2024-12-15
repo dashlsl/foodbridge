@@ -93,7 +93,7 @@ class RouteManager
             ViewManager::renderView('installerview');
             exit();
         } else {
-            DatabaseModel::validateSampleSetup();
+            // DatabaseModel::validateSampleSetup();
         }
         
         // Check if user is logged in

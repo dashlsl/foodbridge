@@ -12,7 +12,9 @@ use App\Models\ValidateModel;
 
 class ViewManager
 {
+    private static $root = ROOT_URI;
     private static $viewRawInfo = [];
+    private static $navRawInfo = [];
 
     /** Add view */
     public function addView(
@@ -36,12 +38,26 @@ class ViewManager
         ];
     }
 
+    /** Add navigation bar */
+    public function addNav($navName, $navCss = [], $navJs = [])
+    {
+        if (array_key_exists($navName, self::$navRawInfo)) {
+            throw new \Exception('Navbar already exists');
+        }
+        self::$navRawInfo[$navName] = [
+            'css' => $navCss,
+            'js' => $navJs
+        ];
+    }
+
     /** Render view based on view name */
     public static function renderView(
         $viewName, 
         $params = [],
-        )
+        $navName = [])
     {
+        $root = self::$root;
+
         self::loginCheck($viewName);
         self::permissionCheck($viewName);
 
@@ -57,7 +73,26 @@ class ViewManager
             'js' => $viewRawInfo['js'] ?? []
         ];
 
-        require_once ROOT . '/app/views/mainview.php';
+        // Render navigation bar
+        $viewInfo['nav']['header'] = '';
+        $viewInfo['nav']['footer'] = '';
+
+        $navIndex = 0;
+        while (count($navName) > $navIndex) {
+            $curNavName = $navName[$navIndex];
+
+            if (array_key_exists($curNavName, self::$navRawInfo)) {
+                $navBody = self::returnNavBody($curNavName);
+                $viewInfo['nav']['header'] .= $navBody['header'];
+                $viewInfo['nav']['footer'] .= $navBody['footer'];
+                
+                $viewInfo['css'] = array_merge($viewInfo['css'], self::$navRawInfo[$curNavName]['css']);
+                $viewInfo['js'] = array_merge($viewInfo['js'], self::$navRawInfo[$curNavName]['js']);
+            }
+            $navIndex++;
+        }
+
+        require_once ROOT . '/app/views/main_view.php';
     }
 
     /** Login checking */
@@ -92,8 +127,18 @@ class ViewManager
         $viewName,
         )
     {
+        $root = self::$root;
+
         require_once ROOT . '/app/views/viewlist/' . $viewName . '.php';
         return $body;
     }
 
+    /** Return navigation bar body */
+    private static function returnNavBody($navName)
+    {
+        $root = self::$root;
+
+        require_once ROOT . '/app/views/navlist/' . $navName . '.php';
+        return $nav;
+    }
 }

@@ -9,11 +9,16 @@ use App\Views\ViewManager;
 
 $vm = new ViewManager();
 
+// Add navbars
+$vm->addNav(
+    'main_nav',
+    ['main_nav.css']);
+
 // Add views
 $vm->addView(
-    'IndexView', 
+    'index_view', 
     'Home', 
-    ['indexview.css']);
+    ['styles.css']);
 
 $vm->addview(
     'InvalidView', 
@@ -32,10 +37,9 @@ $vm->addView(
     ['registerview.js']);
 
 $vm->addView(
-    'loginview',
+    'login_view',
     'Login',
-    ['loginview.css'],
-    ['loginview.js']);
+    ['styles.css']);
 
 $vm->addView(
     'editprofileview',

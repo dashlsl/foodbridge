@@ -15,5 +15,6 @@
 
  date_default_timezone_set('Asia/Kuala_Lumpur');
 
- require_once ROOT . '/app/views/views.php';
- require_once ROOT . '/app/routes/routes.php';
+ require_once ROOT . '\app\helpers\MainHelper.php';
+ require_once ROOT . '\app\views\views.php';
+ require_once ROOT . '\app\routes\routes.php';
