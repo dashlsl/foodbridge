@@ -19,7 +19,7 @@ class AdminController
      */
     public function adminUserListView()
     {
-        return ViewManager::renderView('admin_user_list_view', [], ['admin_nav']);
+        return ViewManager::renderView('admin_user_list_view', []);
     }
 
     public function getUserList()
@@ -58,7 +58,7 @@ class AdminController
     // View for the latest donations
     public function adminDonationListView()
     {
-        return ViewManager::renderView('admin_donation_view', [], ['admin_nav']);
+        return ViewManager::renderView('admin_donation_view', []);
     }
 
     // Get the latest donations
