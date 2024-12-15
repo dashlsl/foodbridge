@@ -17,6 +17,10 @@ use DateTime;
 
 class UserController
 {
+    /**
+     * ACCOUNT MANAGEMENT
+     */
+
     // Registration
     public function registerView()
     {
@@ -41,7 +45,7 @@ class UserController
     // Login
     public function loginView()
     {
-        return ViewManager::renderView('loginview');
+        return ViewManager::renderView('login_view');
     }
 
     public function login()
@@ -110,8 +114,21 @@ class UserController
         AjaxHelper::sendResponse($flag, $result);
     }
 
+    // public function deleteAccount()
+    // {
+    //     $userId = UserModel::getCurUserId();
+    //     $pwd = $_POST['password'];
 
-    ////
+    //     $um = new UserModel();
+    //     $result = $um->deleteAccount($userId, $pwd);
+    //     $flag = !is_array($result);
+
+    //     AjaxHelper::sendResponse($flag, $result);
+    // }
+
+    /**
+     * DONORS
+     */
 
     /** Donation Form - Donors */
     public function donateFormView()
@@ -163,5 +180,15 @@ class UserController
         $params['donations'] = $donations;
 
         return ViewManager::renderView('donations_view', $params);
+    }
+
+    /**
+     * VOLUNTEERS
+     */
+
+    /** Volunteer Form - Volunteers */
+    public function volunteerFormView()
+    {
+        return ViewManager::renderView('volunteer_form_view');
     }
 }
