@@ -45,6 +45,34 @@ $rm->get(
     '/admin-order',
     'AdminController@adminOrderView');
 
+/** GET ROUTES (AJAX) */
+// User
+$rm->get(
+    '/get-user-list',
+    'UserController@getUserList');
+
+$rm->get(
+    '/get-user-details',
+    'UserController@getUserDetails');
+
+
+/** POST ROUTES */
+$rm->post(
+    '/register',
+    'UserController@register');
+
+$rm->post(
+    '/login',
+    'UserController@login');
+
+$rm->post(
+    '/edit-profile',
+    'UserController@editProfile');
+
+$rm->post(
+    '/update-password',
+    'UserController@updatePassword');
+
 
 
 
