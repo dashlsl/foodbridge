@@ -12,55 +12,101 @@ use App\Models\DatabaseModel;
 
 class VolunteerModel
 {
-    /** Get all available deliveries for a volunteer */
-    public function getAvailableDeliveries($volunteerId)
+    /** Get all available (pending) deliveries */
+    public function getPendingDeliveries()
     {
         $sql = <<<SQL
             SELECT
-                fdn.donation_id, fdn.food_description, fdn.quantity, fdn.pickup_time, fdn.status,
-                fdv.delivery_id, fdv.receiver_id, r.organization_name,
-                fdv.pickup_status, fdv.delivery_status
+                fd.donation_id,
+                fd.food_description,
+                fd.quantity,
+                u.address,
+                fd.pickup_time
             FROM
-                food_donations fdn
+                food_donations fd
             JOIN
-                food_delivery fdv ON fd.donation_id = fdc.donation_id
-            JOIN
-                food_receivers r ON fdc.receiver_id = r.receiver_id
+                users u ON fd.donor_id = u.user_id
             WHERE
-                fdc.volunteer_id IS NULL AND fdc.pickup_status = 'pending'
-            ORDER BY
-                fd.pickup_time ASC
+                fd.status = 'pending'
         SQL;
 
-        $params = [
-            ':volunteer_id' => $volunteerId
-        ];
-
-        return DatabaseModel::exec($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return DatabaseModel::exec($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Volunteer selects a delivery */
-    public function assignVolunteerToDelivery($deliveryId, $volunteerId)
+    /** Assign volunteer to a delivery */
+    public function assignVolunteer($deliveryId, $volunteerId)
     {
         $sql = <<<SQL
             UPDATE
-                food_delivery
+                food_delivery 
             SET
-                volunteer_id = :volunteer_id,
-                pickup_status = 'in_progress'
+                volunteer_id = :volunteer_id, pickup_status = 'in_progress' 
             WHERE
                 delivery_id = :delivery_id
         SQL;
 
         $params = [
+            ':delivery_id' => $deliveryId,
             ':volunteer_id' => $volunteerId,
-            ':delivery_id' => $deliveryId
         ];
 
         DatabaseModel::exec($sql, $params);
 
         return true;
     }
+
+    /** Update delivery and pickup status */
+    public function updateDeliveryStatus($deliveryId, $status)
+    {
+        // Update food_delivery status
+        $sql = <<<SQL
+            UPDATE
+                food_delivery
+            SET
+                pickup_status = :pickup_status, delivery_status = CASE 
+                WHEN
+                    :pickup_status = 'completed' THEN 'delivered' 
+                ELSE
+                    delivery_status 
+            END 
+            WHERE
+            delivery_id = :delivery_id
+        SQL;
+
+        $params = [
+            ':delivery_id' => $deliveryId,
+            ':status' => $status
+        ];
+
+        DatabaseModel::exec($sql, $params);
+
+        // Update food_donations status
+        $newFoodStatus = ($status === 'completed') ? 'delivered' : 'picked_up';
+        $sql_don = <<<SQL
+            UPDATE
+                food_donations 
+            SET
+                status = :status 
+            WHERE
+                donation_id = (
+                    SELECT donation_id
+                    FROM food_delivery
+                    WHERE delivery_id = :delivery_id)
+        SQL;
+
+        $params_don = [
+            ':delivery_id' => $deliveryId,
+            ':status' => $newFoodStatus
+        ];
+
+        DatabaseModel::exec($sql_don, $params_don);
+
+        return true;
+    }
+
+
+    ///
+
 
     /** Get volunteer pickup tasks */
     public function getPickupTasks($volunteerId)
@@ -108,50 +154,6 @@ class VolunteerModel
         ];
 
         return DatabaseModel::exec($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /** Update pickup status */
-    public function updatePickupStatus($deliveryId, $status)
-    {
-        $sql = <<<SQL
-            UPDATE
-                food_delivery
-            SET
-                pickup_status = :pickup_status
-            WHERE
-                delivery_id = :delivery_id
-        SQL;
-
-        $params = [
-            ':pickup_status' => $status,
-            ':delivery_id' => $deliveryId
-        ];
-
-        DatabaseModel::exec($sql, $params);
-
-        return true;
-    }
-
-    /** Update delivery status */
-    public function updateDeliveryStatus($deliveryId, $status)
-    {
-        $sql = <<<SQL
-            UPDATE
-                food_delivery
-            SET
-                delivery_status = :delivery_status
-            WHERE
-                delivery_id = :delivery_id
-        SQL;
-
-        $params = [
-            ':delivery_status' => $status,
-            ':delivery_id' => $deliveryId
-        ];
-
-        DatabaseModel::exec($sql, $params);
-
-        return true;
     }
 
     /** Get volunteer details by user ID */
