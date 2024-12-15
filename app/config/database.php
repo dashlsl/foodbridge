@@ -22,8 +22,8 @@ $sql = <<<SQL
         `donation_id` INT AUTO_INCREMENT PRIMARY KEY,
         `donor_id` INT NOT NULL,
         `food_description` TEXT NOT NULL,
-        `quantity` INT NOT NULL,
-        `pickup_time` DATETIME NOT NULL,
+        `quantity` VARCHAR(255) NOT NULL, -- e.g., 10kg, 20 packets
+        `pickup_time` TIMESTAMP NOT NULL,
         `status` ENUM('pending', 'picked_up', 'delivered') DEFAULT 'pending',
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (`donor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE

@@ -14,13 +14,13 @@ use App\Models\DatabaseModel;
 class DonationModel
 {
     /** Add a new donation */
-    public function addDonation($donorId, $description, $quantity, $address, $pickupTime)
+    public function addDonation($donorId, $description, $quantity, $address, $puDateTime)
     {
         $errors = $this->validateAddDonation(
             $description,
             $quantity,
             $address,
-            $pickupTime
+            $puDateTime
         );
         if (count($errors) > 0) {
             return $errors;
@@ -42,7 +42,7 @@ class DonationModel
             ':food_description' => $description,
             ':quantity' => $quantity,
             ':address' => $address,
-            ':pickup_time' => $pickupTime,
+            ':pickup_time' => $puDateTime,
             ':status' => $status
         ];
 
@@ -52,7 +52,7 @@ class DonationModel
     }
 
     /** Validate donation form */
-    private function validateAddDonation($description, $quantity, $address, $pickupTime)
+    private function validateAddDonation($description, $quantity, $address, $puDateTime)
     {
         $errors = [];
 
@@ -68,8 +68,8 @@ class DonationModel
             $errors['donationAddress'] = '*Required';
         }
 
-        if (empty($pickupTime)) {
-            $errors['pickupTime'] = '*Required';
+        if (empty($puDateTime)) {
+            $errors['puDateTime'] = '*Required';
         }
 
         if (!is_numeric($quantity) && !isset($errors['foodQty'])) {
@@ -79,8 +79,8 @@ class DonationModel
         $curDateTime = new DateTime();
         $curDateTime = $curDateTime->format('Y-m-d H:i:s');
 
-        if ($pickupTime < $curDateTime && !isset($errors['pickupTime'])) {
-            $errors['pickupTime'] = '*Must be a future date and time';
+        if ($puDateTime < $curDateTime && !isset($errors['puDateTime'])) {
+            $errors['puDateTime'] = '*Must be a future date and time';
         }
 
         return $errors;
