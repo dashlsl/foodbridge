@@ -23,7 +23,6 @@ $sql = <<<SQL
         `donor_id` INT NOT NULL,
         `food_description` TEXT NOT NULL,
         `quantity` INT NOT NULL,
-        `address_id` INT NOT NULL,  -- Foreign key to the addresses table
         `pickup_time` DATETIME NOT NULL,
         `status` ENUM('pending', 'picked_up', 'delivered') DEFAULT 'pending',
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -32,29 +31,21 @@ $sql = <<<SQL
 
     CREATE TABLE `food_delivery` (
         `delivery_id` INT AUTO_INCREMENT PRIMARY KEY,
-        `donation_id` INT NOT NULL,  -- Link to the donation
-        `volunteer_id` INT NOT NULL,  -- Volunteer handling the transaction
-        `pickup_address_id` INT NOT NULL,  -- Pickup address (References the addresses table)
-        `pickup_time` DATETIME NOT NULL,
+        `donation_id` INT NOT NULL,
+        `receiver_id` INT NOT NULL,
+        `volunteer_id` INT NOT NULL,
         `pickup_status` ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
-        `delivery_address_id` INT NOT NULL,  -- Delivery address (References the addresses table)
-        `delivery_time` DATETIME NOT NULL,
         `delivery_status` ENUM('scheduled', 'delivered') DEFAULT 'scheduled',
-        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (`donation_id`) REFERENCES `food_donations`(`donation_id`) ON DELETE CASCADE,
-        FOREIGN KEY (`volunteer_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE,
-        FOREIGN KEY (`pickup_address_id`) REFERENCES `food_donations`(`donor_address_id`) ON DELETE CASCADE,
-        FOREIGN KEY (`delivery_address_id`) REFERENCES `food_receivers`(`receiver_address_id`) ON DELETE CASCADE
+        FOREIGN KEY (`receiver_id`) REFERENCES `food_receivers`(`receiver_id`) ON DELETE CASCADE,
+        FOREIGN KEY (`volunteer_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
     );
 
     CREATE TABLE `food_receivers` (
         `receiver_id` INT AUTO_INCREMENT PRIMARY KEY,
         `user_id` INT NOT NULL, -- Foreign key linking to the 'users' table
         `organization_name` VARCHAR(255) NOT NULL,
-        `receiver_address_id` INT NOT NULL,  -- Delivery address (References the addresses table)
-        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
-        FOREIGN KEY (`receiver_address_id`) REFERENCES `addresses`(`address_id`) ON DELETE CASCADE
     );
 
 

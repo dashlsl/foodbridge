@@ -122,6 +122,21 @@ class DonationModel
         return DatabaseModel::exec($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** Get all donors */
+    public function getAllDonors()
+    {
+        $sql = <<<SQL
+            SELECT
+                *
+            FROM
+                users
+            WHERE
+                role = 'donor'
+        SQL;
+
+        return DatabaseModel::exec($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /** Update donation */
     public function updateDonation($donationId, $status)
     {
