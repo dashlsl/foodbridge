@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
 <div class="admin-container">
     <div class="sidebar">
         <div class="logo-container">
-            <img src="\food_bridge\images\foodbridge_logo_col.png" alt="FoodBridge Logo" class="logo">
+            <img src="\foodbridge\images\foodbridge_logo_col.png" alt="FoodBridge Logo" class="logo">
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" class="sidebar-link" id="userManagementLink">User Management</a></li>

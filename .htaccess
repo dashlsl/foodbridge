@@ -19,4 +19,4 @@ RewriteRule ^deliver$ deliver.php [L]
 RewriteRule ^$ index.php [L]
 
 # Redirect to invalid.php if error
-ErrorDocument 404 /food_bridge/404.php
+ErrorDocument 404 /foodbridge/404.php

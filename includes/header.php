@@ -18,4 +18,4 @@ $deliveries = new Deliveries($db);
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="css/root.css">
-<base href="/food_bridge/">
+<base href="/foodbridge/">
