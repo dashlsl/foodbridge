@@ -17,14 +17,10 @@ include 'includes/header.php';
 
   <section class="top-section">
     <div class="hero">
-      Bringing Food,<br />Fighting Hunger
+      Error 404: </br> Page Not Found
     </div>
     <div class="subheading">
-      A platform connecting food donors, volunteers, and nonprofits to
-      redistribute surplus food, reduce waste, and combat hunger.
-    </div>
-    <div class="cta">
-      Join us now!
+      The page you are looking for does not exist.
     </div>
   </section>
 

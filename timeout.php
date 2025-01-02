@@ -17,14 +17,10 @@ include 'includes/header.php';
 
   <section class="top-section">
     <div class="hero">
-      Bringing Food,<br />Fighting Hunger
+      Session Timeout
     </div>
     <div class="subheading">
-      A platform connecting food donors, volunteers, and nonprofits to
-      redistribute surplus food, reduce waste, and combat hunger.
-    </div>
-    <div class="cta">
-      Join us now!
+      Your session has timed out. Please log in again.
     </div>
   </section>
 

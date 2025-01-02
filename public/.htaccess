@@ -1,9 +1,0 @@
-Options -Indexes
-
-RewriteEngine On
-RewriteBase /foodbridge/
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-RewriteRule ^(.*)$ /foodbridge/index.php/$1 [L,QSA]

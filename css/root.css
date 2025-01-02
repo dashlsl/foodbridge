@@ -1,0 +1,23 @@
+/* Root */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+}
+
+:root {
+ --text: #333;
+ --text-white: #ffffff;
+ --secondary: #FAF1F2;
+ --primary: #E24E4E;
+}

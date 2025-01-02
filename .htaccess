@@ -1,0 +1,22 @@
+RewriteEngine On
+
+# Redirect /login to login.php
+RewriteRule ^login$ login.php [L]
+
+# Redirect /register to register.php
+RewriteRule ^register$ register.php [L]
+
+# Redirect /donate to donate.php
+RewriteRule ^donate$ donate.php [L]
+
+# Redirect /admin to admin.php
+RewriteRule ^admin$ admin.php
+
+# Redirect /deliveries to deliver.php
+RewriteRule ^deliver$ deliver.php [L]
+
+# Redirect root (/) to index.php (optional, ensures it's clean)
+RewriteRule ^$ index.php [L]
+
+# Redirect to invalid.php if error
+ErrorDocument 404 /food_bridge/404.php

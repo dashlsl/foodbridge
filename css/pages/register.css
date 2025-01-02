@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.form-logo {
+  width: 250px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 522px;
+  padding: 3rem;
+  border-radius: 1rem;
+  background-color: var(--secondary);
+  gap: 1.5rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.input-label {
+  font-weight: bold;
+}
+
+.input-item {
+  width: 400px;
+  padding: 0.75rem;
+  border: 1px solid transparent;
+  outline: none;
+  border-radius: 0.5rem;
+}
+
+.register-btn {
+  background-color: var(--primary);
+  padding: 0.75rem 1.75rem;
+  border-radius: 3rem;
+  color: var(--text-white);
+  border: none;
+  font-size: 1rem;
+}
+
+.outbound-url {
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.3s;
+}
+
+.outbound-url:hover {
+  text-decoration: underline;
+}
